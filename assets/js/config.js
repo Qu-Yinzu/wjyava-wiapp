@@ -15,7 +15,11 @@ const isLocalDev =
   ['localhost', '127.0.0.1'].includes(window.location.hostname) &&
   window.location.port !== '3000';
 
-export const PROXY_BASE = isLocalDev ? 'http://localhost:8787' : '';
+export const PROXY_BASE = isLocalDev
+  ? 'http://localhost:8787'
+  : typeof window !== 'undefined'
+    ? window.location.origin
+    : '';
 
 export const BMKG = Object.freeze({
   alertsProxy: `${PROXY_BASE}/api/bmkg/alerts`,
