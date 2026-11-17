@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+  <defs>
+    <g id="wj-cloud">
+      <path d="M16 36h19a8 8 0 0 0 1.1-15.93A11 11 0 0 0 14.8 17.2 9.5 9.5 0 0 0 16 36Z"/>
+    </g>
+  </defs>
+
+  <symbol id="sun" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="24" cy="24" r="8.5"/>
+    <path d="M24 6v4M24 38v4M6 24h4M38 24h4M11.3 11.3l2.8 2.8M33.9 33.9l2.8 2.8M36.7 11.3l-2.8 2.8M14.1 33.9l-2.8 2.8"/>
+  </symbol>
+
+  <symbol id="moon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M34 30.5A13 13 0 0 1 17.5 14a13.5 13.5 0 1 0 16.5 16.5Z"/>
+  </symbol>
+
+  <symbol id="cloud" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <use href="#wj-cloud"/>
+  </symbol>
+
+  <symbol id="sun-cloud" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <g>
+      <circle cx="16" cy="15" r="6"/>
+      <path d="M16 3.5V7M16 23v3.5M4.5 15H8M24 15h3.5M7.9 6.9l2.5 2.5M21.6 20.6l2.5 2.5M24.1 6.9l-2.5 2.5M10.4 20.6l-2.5 2.5" stroke-width="2.2"/>
+    </g>
+    <g transform="translate(9 8) scale(.78)">
+      <use href="#wj-cloud"/>
+    </g>
+  </symbol>
+
+  <symbol id="moon-cloud" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="translate(1 2) scale(.52)">
+      <path d="M34 30.5A13 13 0 0 1 17.5 14a13.5 13.5 0 1 0 16.5 16.5Z"/>
+    </g>
+    <g transform="translate(9 8) scale(.78)">
+      <use href="#wj-cloud"/>
+    </g>
+  </symbol>
+
+  <symbol id="fog" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="translate(3 -6) scale(.85)">
+      <use href="#wj-cloud"/>
+    </g>
+    <path d="M12 33h24M17 40h18"/>
+  </symbol>
+
+  <symbol id="drizzle" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="translate(3 -7) scale(.85)">
+      <use href="#wj-cloud"/>
+    </g>
+    <path d="M17 30v4M24 30v4M31 30v4"/>
+  </symbol>
+
+  <symbol id="rain" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="translate(3 -7) scale(.85)">
+      <use href="#wj-cloud"/>
+    </g>
+    <path d="M17 29l-2 6M24 29l-2 6M31 29l-2 6"/>
+  </symbol>
+
+  <symbol id="rain-heavy" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="translate(3 -8) scale(.85)">
+      <use href="#wj-cloud"/>
+    </g>
+    <path d="M15 28l-3 8M22 28l-3 8M29 28l-3 8M36 28l-3 8"/>
+  </symbol>
+
+  <symbol id="storm" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="translate(3 -8) scale(.85)">
+      <use href="#wj-cloud"/>
+    </g>
+    <path d="M26 26l-7 11h5l-3 10 9-12h-5l4-9Z" fill="currentColor" stroke="none"/>
+  </symbol>
+
+  <symbol id="snow" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="translate(3 -7) scale(.85)">
+      <use href="#wj-cloud"/>
+    </g>
+    <path d="M17 31v6M14 34h6M24 31v6M21 34h6M31 31v6M28 34h6"/>
+  </symbol>
+
+  <symbol id="droplet" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M24 6c5 6.5 8 10.6 8 14.6a8 8 0 0 1-16 0C16 16.6 19 12.5 24 6Z"/>
+  </symbol>
+
+  <symbol id="wind" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 18h19a5 5 0 1 0-5-5M5 28h26a5 5 0 1 1-5 5M5 38h13"/>
+  </symbol>
+
+  <symbol id="sun-dim" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="24" cy="24" r="5.5"/>
+    <path d="M24 10v3M24 35v3M10 24h3M35 24h3M14.5 14.5l2 2M31.5 31.5l2 2M33.5 14.5l-2 2M16.5 31.5l-2 2"/>
+  </symbol>
+
+  <symbol id="pin" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M24 42s12-11.6 12-20a12 12 0 1 0-24 0c0 8.4 12 20 12 20Z"/>
+    <circle cx="24" cy="22" r="4"/>
+  </symbol>
+
+  <symbol id="search" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="21" cy="21" r="11"/>
+    <path d="M29.5 29.5 40 40"/>
+  </symbol>
+
+  <symbol id="menu" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+    <path d="M8 15h32M8 24h32M8 33h22"/>
+  </symbol>
+
+  <symbol id="alert-triangle" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M24 7 44 41H4L24 7Z"/>
+    <path d="M24 19v9"/>
+    <circle cx="24" cy="34" r="1.4" fill="currentColor" stroke="none"/>
+  </symbol>
+
+  <symbol id="info" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="24" cy="24" r="17"/>
+    <path d="M24 22v11"/>
+    <circle cx="24" cy="15.5" r="1.4" fill="currentColor" stroke="none"/>
+  </symbol>
+
+  <symbol id="external" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 12H12a4 4 0 0 0-4 4v20a4 4 0 0 0 4 4h20a4 4 0 0 0 4-4V28"/>
+    <path d="M28 6h14v14M42 6 22 26"/>
+  </symbol>
+
+  <symbol id="retry" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M38 24a14 14 0 1 1-4.1-9.9"/>
+    <path d="M36 9v9h-9"/>
+  </symbol>
+
+  <symbol id="quake" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 26h8l4-13 7 26 4-13h17"/>
+  </symbol>
+
+  <symbol id="shield" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M24 5 40 11v12c0 10-7 17-16 20-9-3-16-10-16-20V11L24 5Z"/>
+    <path d="m16 24 6 6 10-12"/>
+  </symbol>
+
+  <symbol id="arrow-right" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 24h30M28 14l10 10-10 10"/>
+  </symbol>
+
+  <symbol id="close" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+    <path d="M12 12l24 24M36 12 12 36"/>
+  </symbol>
+</svg>

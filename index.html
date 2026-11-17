@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="id" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WJYAVA — Weather Intelligence Interface</title>
+  <meta name="description" content="WJYAVA menyatukan cuaca terkini, prakiraan lima hari, peta atmosfer, serta peringatan dini dan info gempa resmi BMKG dalam satu antarmuka gelap yang tenang dan mudah dibaca.">
+  <meta name="theme-color" content="#0B1020">
+  <meta name="color-scheme" content="dark">
+
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.open-meteo.com">
+  <link rel="preconnect" href="https://geocoding-api.open-meteo.com">
+  <link rel="preconnect" href="https://embed.windy.com">
+  <link rel="preconnect" href="https://data.bmkg.go.id">
+  <link rel="preconnect" href="https://api.bigdatacloud.net">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="dns-prefetch" href="https://api.open-meteo.com">
+  <link rel="dns-prefetch" href="https://data.bmkg.go.id">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/bootstrap-overrides.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main" data-i18n="nav.skip">Lewati ke konten utama</a>
+
+  <header class="site-header">
+    <div class="container-wj site-header__inner">
+      <a class="brand" href="#top" aria-label="WJYAVA — kembali ke atas" data-i18n-aria-label="nav.home">
+        <img class="brand__mark" src="assets/img/logo-wjyava.svg" alt="" width="38" height="38" decoding="async">
+        <span class="brand__text">
+          <span class="brand__name">WJYAVA</span>
+          <span class="brand__tag">Weather Intelligence</span>
+        </span>
+      </a>
+
+      <button class="nav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Buka menu navigasi" data-i18n-aria-label="nav.toggle">
+        <svg aria-hidden="true" focusable="false"><use href="assets/img/sprite-weather.svg#menu"></use></svg>
+      </button>
+
+      <nav class="navbar-collapse collapse" id="navMenu" aria-label="Navigasi utama" data-i18n-aria-label="nav.main">
+        <ul class="nav-list">
+          <li><a class="nav-link-wj is-active" href="#cuaca" aria-current="true" data-i18n="nav.weather">Cuaca</a></li>
+          <li><a class="nav-link-wj" href="#peta" data-i18n="nav.map">Peta Interaktif</a></li>
+          <li><a class="nav-link-wj" href="#peringatan" data-i18n="nav.alerts">Peringatan</a></li>
+          <li><a class="nav-link-wj" href="#tentang" data-i18n="nav.about">Tentang</a></li>
+        </ul>
+
+        <div class="header-actions">
+          <div class="seg-toggle" role="group" aria-label="Pilih bahasa" data-i18n-aria-label="nav.localeGroup">
+            <button class="seg-toggle__btn" type="button" data-locale="id" aria-pressed="true">ID</button>
+            <button class="seg-toggle__btn" type="button" data-locale="en" aria-pressed="false">EN</button>
+          </div>
+          <button class="btn btn--ghost btn--sm" type="button" data-action="geolocate">
+            <svg class="icon icon--xs" aria-hidden="true" focusable="false"><use href="assets/img/sprite-weather.svg#pin"></use></svg>
+            <span data-i18n="nav.geolocate">Lokasi Saya</span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- 1 · Hero + current weather -------------------------------------- -->
+    <section class="section section--hero" id="cuaca" aria-labelledby="hero-title">
+      <div class="container-wj">
+        <div class="hero-grid">
+          <div class="hero__intro">
+            <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span><span data-i18n="hero.eyebrow">Live conditions · Indonesia</span></p>
+            <h1 class="hero__title" id="hero-title"><span data-i18n="hero.title1">Know the sky.</span><br><span class="hero__accent" data-i18n="hero.title2">Plan with confidence.</span></h1>
+            <p class="hero__desc" data-i18n="hero.desc">Cuaca terkini, prakiraan lima hari, peta atmosfer, dan peringatan resmi BMKG — disatukan dalam satu antarmuka yang tenang dan mudah dibaca.</p>
+
+            <form class="search" data-search-form role="search" novalidate>
+              <svg class="search__icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite-weather.svg#search"></use></svg>
+              <label class="sr-only" for="city-input" data-i18n="hero.searchLabel">Cari kota</label>
+              <input class="search__input" id="city-input" name="city" type="search" placeholder="Cari kota — mis. Bandung" data-i18n-placeholder="hero.searchPlaceholder" autocomplete="off" minlength="2" maxlength="64" aria-describedby="search-hint" aria-controls="search-results" aria-autocomplete="list" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+              <button class="btn btn--primary search__submit" type="submit" data-i18n="hero.searchSubmit">Cari</button>
+              <ul class="search-results" id="search-results" role="listbox" aria-label="Hasil pencarian kota" data-i18n-aria-label="hero.searchResults" hidden></ul>
+            </form>
+            <p class="search__hint" id="search-hint" data-search-hint role="status" data-i18n="hero.searchHint">Ketik minimal 2 karakter, lalu pilih hasil dari daftar.</p>
+
+            <div class="search__chips" aria-label="Kota populer" data-i18n-aria-label="hero.chipsAria">
+              <button class="chip-link" type="button" data-quick-city="Jakarta">Jakarta</button>
+              <button class="chip-link" type="button" data-quick-city="Bandung">Bandung</button>
+              <button class="chip-link" type="button" data-quick-city="Surabaya">Surabaya</button>
+              <button class="chip-link" type="button" data-quick-city="Medan">Medan</button>
+              <button class="chip-link" type="button" data-quick-city="Makassar">Makassar</button>
+            </div>
+          </div>
+
+          <div class="hero__panel">
+            <article class="card weather-card" data-region="current" aria-busy="true" aria-label="Cuaca terkini" data-i18n-aria-label="current.aria">
+              <div class="sk-row">
+                <div class="sk-stack">
+                  <div class="skeleton skeleton--title"></div>
+                  <div class="skeleton skeleton--line" style="width: 70%"></div>
+                </div>
+                <div class="skeleton skeleton--line" style="width: 96px"></div>
+              </div>
+              <div class="sk-hero">
+                <div class="sk-stack">
+                  <div class="skeleton skeleton--display"></div>
+                  <div class="skeleton skeleton--line" style="width: 150px"></div>
+                  <div class="skeleton skeleton--line" style="width: 110px"></div>
+                </div>
+                <div class="skeleton skeleton--circle"></div>
+              </div>
+              <div class="sk-metrics">
+                <div class="skeleton skeleton--metric"></div>
+                <div class="skeleton skeleton--metric"></div>
+                <div class="skeleton skeleton--metric"></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 · 5-day forecast ---------------------------------------------- -->
+    <section class="section section--alt" id="prakiraan" aria-labelledby="forecast-title">
+      <div class="container-wj">
+        <div class="section-head">
+          <div class="section-head__text">
+            <p class="section-head__eyebrow" data-i18n="forecast.eyebrow">Prakiraan</p>
+            <h2 class="section-head__title" id="forecast-title" data-i18n="forecast.title">Prakiraan 5 hari</h2>
+            <p class="section-head__desc" data-i18n="forecast.desc">Tren suhu maksimum dan minimum harian, kondisi langit, dan peluang hujan untuk lokasi yang sedang dilihat.</p>
+          </div>
+          <div class="section-head__aside">
+            <span class="badge badge--neutral">Open-Meteo</span>
+            <span class="source-note" data-forecast-updated>—</span>
+          </div>
+        </div>
+
+        <div class="grid-forecast" data-region="forecast" aria-busy="true" aria-label="Prakiraan lima hari" data-i18n-aria-label="forecast.aria">
+          <div class="forecast-card forecast-card--skeleton">
+            <div class="skeleton skeleton--line" style="width: 62%"></div>
+            <div class="skeleton skeleton--line" style="width: 42%"></div>
+            <div class="skeleton skeleton--icon"></div>
+            <div class="skeleton skeleton--line" style="width: 52%; height: 1.25rem"></div>
+            <div class="skeleton skeleton--line" style="width: 84%"></div>
+          </div>
+          <div class="forecast-card forecast-card--skeleton">
+            <div class="skeleton skeleton--line" style="width: 62%"></div>
+            <div class="skeleton skeleton--line" style="width: 42%"></div>
+            <div class="skeleton skeleton--icon"></div>
+            <div class="skeleton skeleton--line" style="width: 52%; height: 1.25rem"></div>
+            <div class="skeleton skeleton--line" style="width: 84%"></div>
+          </div>
+          <div class="forecast-card forecast-card--skeleton">
+            <div class="skeleton skeleton--line" style="width: 62%"></div>
+            <div class="skeleton skeleton--line" style="width: 42%"></div>
+            <div class="skeleton skeleton--icon"></div>
+            <div class="skeleton skeleton--line" style="width: 52%; height: 1.25rem"></div>
+            <div class="skeleton skeleton--line" style="width: 84%"></div>
+          </div>
+          <div class="forecast-card forecast-card--skeleton">
+            <div class="skeleton skeleton--line" style="width: 62%"></div>
+            <div class="skeleton skeleton--line" style="width: 42%"></div>
+            <div class="skeleton skeleton--icon"></div>
+            <div class="skeleton skeleton--line" style="width: 52%; height: 1.25rem"></div>
+            <div class="skeleton skeleton--line" style="width: 84%"></div>
+          </div>
+          <div class="forecast-card forecast-card--skeleton">
+            <div class="skeleton skeleton--line" style="width: 62%"></div>
+            <div class="skeleton skeleton--line" style="width: 42%"></div>
+            <div class="skeleton skeleton--icon"></div>
+            <div class="skeleton skeleton--line" style="width: 52%; height: 1.25rem"></div>
+            <div class="skeleton skeleton--line" style="width: 84%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 · Atmospheric map --------------------------------------------- -->
+    <section class="section" id="peta" aria-labelledby="map-title">
+      <div class="container-wj">
+        <div class="section-head">
+          <div class="section-head__text">
+            <p class="section-head__eyebrow" data-i18n="map.eyebrow">Peta atmosfer</p>
+            <h2 class="section-head__title" id="map-title" data-i18n="map.title">Peta kondisi atmosfer</h2>
+            <p class="section-head__desc" data-i18n="map.desc">Lapisan angin, hujan, suhu, dan awan untuk domain Indonesia dari Windy dan ECMWF. Peta dimuat otomatis saat mendekati layar.</p>
+          </div>
+          <div class="section-head__aside">
+            <span class="badge badge--neutral" data-i18n="map.liveBadge">Live · Windy</span>
+          </div>
+        </div>
+
+        <div class="map-panel">
+          <div class="map-panel__head">
+            <div>
+              <h3 class="panel__title" data-i18n="map.panelTitle">Lapisan atmosfer</h3>
+              <p class="panel__sub" data-i18n="map.panelSub">Pilih lapisan untuk melihat skala warna dan satuan yang sesuai.</p>
+            </div>
+            <div class="layer-chips" role="group" aria-label="Pilih lapisan peta" data-i18n-aria-label="map.layerGroup">
+              <button class="layer-chip" type="button" data-layer="wind" aria-pressed="true" data-i18n="map.layerWind">Angin</button>
+              <button class="layer-chip" type="button" data-layer="rain" aria-pressed="false" data-i18n="map.layerRain">Hujan</button>
+              <button class="layer-chip" type="button" data-layer="temp" aria-pressed="false" data-i18n="map.layerTemp">Suhu</button>
+              <button class="layer-chip" type="button" data-layer="clouds" aria-pressed="false" data-i18n="map.layerClouds">Awan</button>
+            </div>
+          </div>
+
+          <div class="map-frame" data-map-frame data-overlay="wind" role="group" aria-label="Peta atmosfer Windy, lapisan angin" data-i18n-aria-label="map.frameAria">
+            <div class="map-placeholder" data-map-placeholder>
+              <span class="badge badge--neutral" data-i18n="map.idleBadge">Windy · dimuat saat terlihat</span>
+              <p class="map-placeholder__title" data-i18n="map.loadingTitle">Peta atmosfer interaktif</p>
+              <p class="map-placeholder__text" data-i18n="map.loadingText">Peta dimuat otomatis saat bagian ini mendekati layar. Pilih lapisan di atas; timeline waktu tersedia di bagian bawah peta.</p>
+              <p class="map-placeholder__layer" data-map-layer-label data-i18n="map.activeLayer">Lapisan aktif: Angin</p>
+              <a class="btn btn--soft btn--sm" href="https://www.windy.com" target="_blank" rel="noopener noreferrer">
+                <span data-i18n="map.openWindy">Buka Windy di tab baru</span>
+                <svg class="icon icon--xs" aria-hidden="true" focusable="false"><use href="assets/img/sprite-weather.svg#external"></use></svg>
+              </a>
+            </div>
+            <div class="map-stage" data-map-stage></div>
+            <div class="map-coords" aria-hidden="true">
+              <span data-map-coords>6.21°S · 106.85°E</span>
+              <span data-map-zoom>z5</span>
+            </div>
+          </div>
+
+          <p class="map-timeline-note">
+            <svg class="icon icon--xs" aria-hidden="true" focusable="false"><use href="assets/img/sprite-weather.svg#info"></use></svg>
+            <span data-i18n="map.timelineNote">Gunakan kontrol timeline bawaan di bagian bawah peta untuk melihat prakiraan waktu.</span>
+          </p>
+
+          <div class="map-legend">
+            <div class="map-legend__scale">
+              <p class="map-legend__title" data-legend-title>Skala angin · km/j</p>
+              <div class="map-legend__bar" data-legend-bar role="img" aria-label="Skala warna lapisan angin"></div>
+              <div class="map-legend__labels">
+                <span data-legend-min>Tenang · 0</span>
+                <span data-legend-max>Badai · 120</span>
+              </div>
+            </div>
+            <p class="source-note">
+              <svg class="icon icon--xs" aria-hidden="true" focusable="false"><use href="assets/img/sprite-weather.svg#info"></use></svg>
+              <span data-i18n="map.attribution">Peta: Windy.com · Data: ECMWF</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 · Five major cities ------------------------------------------- -->
+    <section class="section section--alt" id="kota" aria-labelledby="cities-title">
+      <div class="container-wj">
+        <div class="section-head">
+          <div class="section-head__text">
+            <p class="section-head__eyebrow" data-i18n="cities.eyebrow">Kota besar</p>
+            <h2 class="section-head__title" id="cities-title" data-i18n="cities.title">Cuaca 5 kota besar</h2>
+            <p class="section-head__desc" data-i18n="cities.desc">Jakarta, Surabaya, Bandung, Medan, dan Makassar dimuat terpisah sehingga satu kegagalan tidak menjatuhkan kartu lain.</p>
+          </div>
+          <div class="section-head__aside">
+            <span class="badge badge--neutral">Open-Meteo</span>
+            <span class="source-note" data-cities-updated>—</span>
+          </div>
+        </div>
+
+        <div class="grid-cities" data-region="cities" aria-busy="true" aria-label="Cuaca lima kota besar" data-i18n-aria-label="cities.aria">
+          <div class="city-card city-card--skeleton">
+            <div class="sk-row"><div class="sk-stack"><div class="skeleton skeleton--line" style="width: 70%"></div><div class="skeleton skeleton--line" style="width: 48%"></div></div><div class="skeleton skeleton--icon" style="width: 28px; height: 28px"></div></div>
+            <div class="skeleton skeleton--display" style="height: 2rem; width: 45%; margin-top: 0.75rem"></div>
+            <div class="skeleton skeleton--line" style="width: 76%"></div>
+            <div class="skeleton skeleton--line" style="width: 90%; margin-top: auto"></div>
+          </div>
+          <div class="city-card city-card--skeleton">
+            <div class="sk-row"><div class="sk-stack"><div class="skeleton skeleton--line" style="width: 70%"></div><div class="skeleton skeleton--line" style="width: 48%"></div></div><div class="skeleton skeleton--icon" style="width: 28px; height: 28px"></div></div>
+            <div class="skeleton skeleton--display" style="height: 2rem; width: 45%; margin-top: 0.75rem"></div>
+            <div class="skeleton skeleton--line" style="width: 76%"></div>
+            <div class="skeleton skeleton--line" style="width: 90%; margin-top: auto"></div>
+          </div>
+          <div class="city-card city-card--skeleton">
+            <div class="sk-row"><div class="sk-stack"><div class="skeleton skeleton--line" style="width: 70%"></div><div class="skeleton skeleton--line" style="width: 48%"></div></div><div class="skeleton skeleton--icon" style="width: 28px; height: 28px"></div></div>
+            <div class="skeleton skeleton--display" style="height: 2rem; width: 45%; margin-top: 0.75rem"></div>
+            <div class="skeleton skeleton--line" style="width: 76%"></div>
+            <div class="skeleton skeleton--line" style="width: 90%; margin-top: auto"></div>
+          </div>
+          <div class="city-card city-card--skeleton">
+            <div class="sk-row"><div class="sk-stack"><div class="skeleton skeleton--line" style="width: 70%"></div><div class="skeleton skeleton--line" style="width: 48%"></div></div><div class="skeleton skeleton--icon" style="width: 28px; height: 28px"></div></div>
+            <div class="skeleton skeleton--display" style="height: 2rem; width: 45%; margin-top: 0.75rem"></div>
+            <div class="skeleton skeleton--line" style="width: 76%"></div>
+            <div class="skeleton skeleton--line" style="width: 90%; margin-top: auto"></div>
+          </div>
+          <div class="city-card city-card--skeleton">
+            <div class="sk-row"><div class="sk-stack"><div class="skeleton skeleton--line" style="width: 70%"></div><div class="skeleton skeleton--line" style="width: 48%"></div></div><div class="skeleton skeleton--icon" style="width: 28px; height: 28px"></div></div>
+            <div class="skeleton skeleton--display" style="height: 2rem; width: 45%; margin-top: 0.75rem"></div>
+            <div class="skeleton skeleton--line" style="width: 76%"></div>
+            <div class="skeleton skeleton--line" style="width: 90%; margin-top: auto"></div>
+          </div>
+        </div>
+
+        <p class="source-note section-foot" data-i18n="cities.sourceNote">Sumber: Open-Meteo · koordinat tetap lima kota besar</p>
+      </div>
+    </section>
+
+    <!-- 5 · Alerts & earthquake (7 / 5) --------------------------------- -->
+    <section class="section" id="peringatan" aria-labelledby="alerts-title">
+      <div class="container-wj">
+        <div class="section-head">
+          <div class="section-head__text">
+            <p class="section-head__eyebrow" data-i18n="alerts.eyebrow">Keselamatan</p>
+            <h2 class="section-head__title" id="alerts-title" data-i18n="alerts.sectionTitle">Peringatan dini &amp; info gempa</h2>
+            <p class="section-head__desc" data-i18n="alerts.sectionDesc">Data resmi BMKG berskala nasional. Panel ini tidak mengikuti kota yang sedang dilihat dan tidak pernah memprediksi bencana.</p>
+          </div>
+          <div class="section-head__aside">
+            <span class="badge badge--national" data-i18n="common.national">Nasional · BMKG</span>
+          </div>
+        </div>
+
+        <div class="grid-alerts">
+          <article class="panel panel--alerts" data-region="alerts" aria-busy="true" aria-label="Peringatan dini cuaca Indonesia" data-i18n-aria-label="alerts.aria">
+            <div class="panel__head">
+              <div class="sk-stack" style="flex: 1">
+                <div class="skeleton skeleton--title" style="width: 68%"></div>
+                <div class="skeleton skeleton--line" style="width: 54%"></div>
+              </div>
+              <div class="skeleton skeleton--line" style="width: 96px; height: 1.5rem; border-radius: 999px"></div>
+            </div>
+            <div class="panel__body panel-skeleton__body">
+              <div class="panel-skeleton__item">
+                <div class="skeleton skeleton--line" style="width: 32%"></div>
+                <div class="skeleton skeleton--line"></div>
+                <div class="skeleton skeleton--line"></div>
+              </div>
+              <div class="panel-skeleton__item">
+                <div class="skeleton skeleton--line" style="width: 32%"></div>
+                <div class="skeleton skeleton--line"></div>
+                <div class="skeleton skeleton--line"></div>
+              </div>
+              <div class="panel-skeleton__item">
+                <div class="skeleton skeleton--line" style="width: 32%"></div>
+                <div class="skeleton skeleton--line"></div>
+                <div class="skeleton skeleton--line"></div>
+              </div>
+            </div>
+            <div class="panel__foot">
+              <div class="skeleton skeleton--line" style="width: 170px"></div>
+              <div class="skeleton skeleton--line" style="width: 90px"></div>
+            </div>
+          </article>
+
+          <article class="panel quake-panel" data-region="quake" aria-busy="true" aria-label="Info gempa terkini Indonesia" data-i18n-aria-label="quake.aria">
+            <div class="panel__head">
+              <div class="sk-stack" style="flex: 1">
+                <div class="skeleton skeleton--title" style="width: 62%"></div>
+                <div class="skeleton skeleton--line" style="width: 46%"></div>
+              </div>
+              <div class="skeleton skeleton--line" style="width: 84px; height: 1.5rem; border-radius: 999px"></div>
+            </div>
+            <div class="panel__body">
+              <div class="skeleton skeleton--display" style="width: 46%; height: 3rem"></div>
+              <div class="skeleton skeleton--line" style="width: 88%; margin-top: 1rem"></div>
+              <div class="sk-stack" style="margin-top: 1.5rem">
+                <div class="skeleton skeleton--line" style="height: 2rem"></div>
+                <div class="skeleton skeleton--line" style="height: 2rem"></div>
+                <div class="skeleton skeleton--line" style="height: 2rem"></div>
+                <div class="skeleton skeleton--line" style="height: 2rem"></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 · About / FAQ / Contact (3 columns) --------------------------- -->
+    <section class="section section--alt" id="tentang" aria-labelledby="about-title">
+      <div class="container-wj">
+        <div class="section-head">
+          <div class="section-head__text">
+            <p class="section-head__eyebrow" data-i18n="about.eyebrow">Tentang</p>
+            <h2 class="section-head__title" id="about-title" data-i18n="about.title">Tentang WJYAVA</h2>
+            <p class="section-head__desc" data-i18n="about.desc">Antarmuka cuaca yang jujur: setiap angka punya sumber, setiap kegagalan punya penjelasan.</p>
+          </div>
+        </div>
+
+        <div class="grid-about">
+          <article class="card about-card">
+            <h3 class="panel__title" data-i18n="about.whatTitle">Apa itu WJYAVA?</h3>
+            <p class="about-card__text"><span data-i18n="about.text1Lead">WJYAVA adalah </span><em>weather intelligence interface</em><span data-i18n="about.text1Rest"> untuk Indonesia. Cuaca mengikuti lokasi yang Anda pilih, sementara peringatan dini dan info gempa selalu berskala nasional dan berasal langsung dari BMKG.</span></p>
+            <p class="about-card__text" data-i18n="about.text2">Tidak ada prediksi buatan sendiri, tidak ada angka pengganti saat data gagal dimuat. Panel yang gagal menampilkan pesan, aksi, dan penanda kesegaran data.</p>
+            <ul class="stat-list">
+              <li class="stat"><span data-i18n="about.statSections">Section semantik</span><span class="stat__value">8</span></li>
+              <li class="stat"><span data-i18n="about.statSources">Sumber data resmi</span><span class="stat__value">3</span></li>
+              <li class="stat"><span data-i18n="about.statPredictions">Prediksi buatan</span><span class="stat__value">0</span></li>
+            </ul>
+          </article>
+
+          <article class="card about-card">
+            <h3 class="panel__title" data-i18n="about.faqTitle">Pertanyaan umum</h3>
+            <div class="accordion accordion-wj" id="faqAccordion">
+              <div class="accordion-item">
+                <h4 class="accordion-header" id="faqHeading1">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1" data-i18n="about.faq1Q">Apakah WJYAVA memprediksi cuaca sendiri?</button>
+                </h4>
+                <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faqHeading1" data-bs-parent="#faqAccordion">
+                  <div class="accordion-body" data-i18n="about.faq1A">Tidak. Semua angka cuaca dan prakiraan berasal dari Open-Meteo. Peringatan dini dan info gempa berasal dari BMKG dan ditampilkan apa adanya.</div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h4 class="accordion-header" id="faqHeading2">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2" data-i18n="about.faq2Q">Mengapa peringatan tidak berubah saat saya mencari kota lain?</button>
+                </h4>
+                <div id="faq2" class="accordion-collapse collapse" aria-labelledby="faqHeading2" data-bs-parent="#faqAccordion">
+                  <div class="accordion-body" data-i18n="about.faq2A">Panel peringatan dan gempa selalu berskala nasional Indonesia. Saat Anda mencari kota di luar negeri, panel cuaca mengikuti kota tersebut, tetapi peringatan tetap data resmi BMKG untuk Indonesia.</div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h4 class="accordion-header" id="faqHeading3">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3" data-i18n="about.faq3Q">Seberapa sering data diperbarui?</button>
+                </h4>
+                <div id="faq3" class="accordion-collapse collapse" aria-labelledby="faqHeading3" data-bs-parent="#faqAccordion">
+                  <div class="accordion-body" data-i18n="about.faq3A">Cuaca diperbarui setiap 10 menit, peringatan dini setiap 5 menit, dan info gempa setiap 60 detik. Setiap panel menampilkan sumber dan waktu pembaruan terakhir.</div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h4 class="accordion-header" id="faqHeading4">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4" data-i18n="about.faq4Q">Apa yang terjadi jika satu sumber data gagal?</button>
+                </h4>
+                <div id="faq4" class="accordion-collapse collapse" aria-labelledby="faqHeading4" data-bs-parent="#faqAccordion">
+                  <div class="accordion-body" data-i18n="about.faq4A">Hanya panel terkait yang menampilkan pesan. Panel lain tetap berjalan. Bila tersedia cache, data tersimpan ditampilkan dengan label waktu agar Anda tahu kesegarannya.</div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h4 class="accordion-header" id="faqHeading5">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5" data-i18n="about.faq5Q">Apakah data saya disimpan?</button>
+                </h4>
+                <div id="faq5" class="accordion-collapse collapse" aria-labelledby="faqHeading5" data-bs-parent="#faqAccordion">
+                  <div class="accordion-body" data-i18n="about.faq5A">Hanya preferensi lokal seperti bahasa dan lokasi terakhir yang disimpan di browser. Tidak ada akun, tidak ada pelacakan, dan tidak ada data pribadi yang dikirim ke server WJYAVA.</div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card about-card">
+            <h3 class="panel__title" data-i18n="about.contactTitle">Hubungi kami</h3>
+            <p class="about-card__text" data-i18n="about.contactText">Punya masukan tentang tampilan atau data? Kirim pesan singkat melalui klien email Anda.</p>
+            <form class="contact-form" data-contact-form novalidate>
+              <div class="field">
+                <label class="field__label" for="contact-email" data-i18n="about.emailLabel">Email</label>
+                <input class="form-control-wj" id="contact-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="nama@contoh.com" data-i18n-placeholder="about.emailPlaceholder" aria-describedby="contact-email-error">
+                <p class="field__error" id="contact-email-error" data-error-email></p>
+              </div>
+              <div class="field">
+                <label class="field__label" for="contact-message" data-i18n="about.messageLabel">Pesan</label>
+                <textarea class="form-control-wj" id="contact-message" name="message" rows="4" placeholder="Tulis minimal 10 karakter…" data-i18n-placeholder="about.messagePlaceholder" aria-describedby="contact-message-error"></textarea>
+                <p class="field__error" id="contact-message-error" data-error-message></p>
+              </div>
+              <button class="btn btn--primary btn--block" type="submit" data-i18n="about.submit">Siapkan email</button>
+              <p class="form-status" data-contact-status role="status"></p>
+              <p class="form-note"><span data-i18n="about.noteLead">Form ini membuka klien email Anda melalui tautan </span><code>mailto:</code><span data-i18n="about.noteRest">. Tidak ada data yang dikirim ke server.</span></p>
+            </form>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 7 · Footer ------------------------------------------------------- -->
+  <footer class="site-footer" aria-label="Footer WJYAVA" data-i18n-aria-label="footer.aria">
+    <div class="container-wj">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img class="brand__mark" src="assets/img/logo-wjyava.svg" alt="" width="38" height="38" loading="lazy" decoding="async">
+          <div class="footer-brand__text">
+            <p class="brand__name" style="letter-spacing: 0.16em; margin: 0">WJYAVA</p>
+            <p data-i18n="footer.brand">Weather intelligence untuk Indonesia. Tenang dibaca, jelas sumbernya, dan tidak pernah mengarang data.</p>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="footer-title" data-i18n="footer.navTitle">Navigasi</h2>
+          <ul class="footer-links">
+            <li><a href="#cuaca" data-i18n="footer.navWeather">Cuaca terkini</a></li>
+            <li><a href="#prakiraan" data-i18n="footer.navForecast">Prakiraan 5 hari</a></li>
+            <li><a href="#peta" data-i18n="footer.navMap">Peta atmosfer</a></li>
+            <li><a href="#peringatan" data-i18n="footer.navAlerts">Peringatan &amp; gempa</a></li>
+            <li><a href="#tentang" data-i18n="footer.navAbout">Tentang &amp; kontak</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="footer-title" data-i18n="footer.sourcesTitle">Sumber data</h2>
+          <ul class="footer-links">
+            <li><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a></li>
+            <li><a href="https://www.bmkg.go.id/" target="_blank" rel="noopener noreferrer">BMKG</a></li>
+            <li><a href="https://www.windy.com/" target="_blank" rel="noopener noreferrer">Windy.com</a></li>
+            <li><a href="https://www.bigdatacloud.com/" target="_blank" rel="noopener noreferrer">BigDataCloud</a></li>
+            <li><a href="https://www.ecmwf.int/" target="_blank" rel="noopener noreferrer">ECMWF</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="footer-title" data-i18n="footer.dataTitle">Tentang data</h2>
+          <p class="footer-note"><strong data-i18n="footer.disclaimerLead">Prakiraan cuaca dapat berubah</strong><span data-i18n="footer.disclaimerRest">. Data prakiraan bersifat informatif, bukan jaminan. Peringatan dini dan info gempa merujuk sepenuhnya pada kanal resmi BMKG.</span></p>
+          <p class="footer-note" style="margin-top: 0.75rem" data-i18n="footer.nationalNote">Peringatan dini dan info gempa selalu berskala nasional Indonesia; ikuti pembaruan di kanal resmi BMKG.</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p data-i18n="footer.copyright">© 2026 WJYAVA · Weather Intelligence Interface</p>
+        <ul class="footer-legal">
+          <li><a href="#top" data-i18n="footer.backToTop">Kembali ke atas</a></li>
+          <li><a href="docs/api-contract.md" data-i18n="footer.apiContract">Kontrak API</a></li>
+          <li><a href="docs/test-checklist.md" data-i18n="footer.testChecklist">Checklist uji</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast-stack" data-toast-stack aria-live="polite" aria-atomic="false"></div>
+  <div class="sr-only" data-announcer aria-live="polite" aria-atomic="true"></div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="assets/js/main.js"></script>
+</body>
+</html>

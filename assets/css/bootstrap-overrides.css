@@ -1,0 +1,151 @@
+/* ==========================================================================
+   WJYAVA · bootstrap-overrides.css
+   Maps project tokens onto Bootstrap 5 CSS variables. Bootstrap supplies
+   layout/behaviour only — colour and type always come from tokens.css.
+   ========================================================================== */
+
+:root,
+[data-bs-theme="dark"] {
+  --bs-body-bg: var(--bg-base);
+  --bs-body-bg-rgb: 11, 16, 32;
+  --bs-body-color: var(--text-primary);
+  --bs-body-color-rgb: 226, 232, 240;
+  --bs-body-font-family: var(--font-body);
+  --bs-body-font-size: var(--fs-body);
+  --bs-body-font-weight: 400;
+  --bs-body-line-height: var(--lh-body);
+
+  --bs-emphasis-color: var(--text-primary);
+  --bs-secondary-color: var(--text-secondary);
+  --bs-secondary-bg: var(--bg-surface-2);
+  --bs-tertiary-bg: var(--bg-surface);
+  --bs-heading-color: var(--text-primary);
+
+  --bs-border-color: var(--border-subtle);
+  --bs-border-color-translucent: var(--border-subtle);
+  --bs-border-radius: var(--radius-sm);
+  --bs-border-radius-lg: var(--radius-lg);
+  --bs-border-radius-xl: var(--radius-xl);
+  --bs-border-radius-pill: var(--radius-pill);
+
+  --bs-primary: var(--accent-primary);
+  --bs-primary-rgb: 99, 102, 241;
+  --bs-link-color: var(--accent-primary-text);
+  --bs-link-color-rgb: 129, 140, 248;
+  --bs-link-hover-color: #a5b4fc;
+  --bs-link-hover-color-rgb: 165, 180, 252;
+
+  --bs-focus-ring-color: rgba(245, 215, 110, 0.45);
+  --bs-focus-ring-width: 2px;
+  --bs-focus-ring-opacity: 1;
+
+  --bs-card-bg: var(--bg-surface);
+  --bs-card-border-color: var(--border-subtle);
+  --bs-card-border-radius: var(--radius-lg);
+  --bs-card-cap-bg: transparent;
+  --bs-card-color: var(--text-primary);
+
+  --bs-accordion-bg: transparent;
+  --bs-accordion-color: var(--text-primary);
+  --bs-accordion-border-color: var(--border-subtle);
+  --bs-accordion-border-width: 0;
+  --bs-accordion-btn-bg: transparent;
+  --bs-accordion-btn-color: var(--text-primary);
+  --bs-accordion-btn-focus-border-color: transparent;
+  --bs-accordion-btn-focus-box-shadow: none;
+  --bs-accordion-active-bg: transparent;
+  --bs-accordion-active-color: var(--accent-mimosa);
+  --bs-accordion-body-padding-x: 0;
+  --bs-accordion-body-padding-y: 0;
+
+  --bs-form-control-bg: var(--bg-surface-2);
+  --bs-form-control-color: var(--text-primary);
+  --bs-form-control-border-color: var(--border-strong);
+  --bs-form-control-focus-border-color: var(--accent-primary);
+  --bs-form-control-focus-box-shadow: var(--shadow-focus);
+  --bs-form-control-placeholder-color: var(--text-muted);
+
+  --bs-toast-bg: #1e2947;
+  --bs-toast-border-color: var(--border-strong);
+  --bs-toast-color: var(--text-primary);
+  --bs-toast-header-bg: transparent;
+  --bs-toast-header-color: var(--text-secondary);
+
+  --bs-dropdown-bg: var(--bg-surface);
+  --bs-dropdown-border-color: var(--border-strong);
+  --bs-dropdown-link-color: var(--text-primary);
+  --bs-dropdown-link-hover-bg: var(--bg-surface-2);
+  --bs-dropdown-link-hover-color: var(--text-primary);
+}
+
+/* --- Navbar ------------------------------------------------------------- */
+.navbar {
+  --bs-navbar-padding-y: 0;
+  --bs-navbar-color: var(--text-secondary);
+  --bs-navbar-hover-color: var(--text-primary);
+  --bs-navbar-active-color: var(--text-primary);
+  --bs-navbar-brand-color: var(--text-primary);
+  --bs-navbar-toggler-border-color: var(--border-subtle);
+  --bs-navbar-toggler-focus-width: 0;
+}
+
+.navbar-toggler {
+  border-color: var(--border-subtle);
+}
+
+.navbar-toggler:focus {
+  box-shadow: var(--shadow-focus);
+}
+
+/* --- Accordion ---------------------------------------------------------- */
+.accordion {
+  --bs-accordion-transition: none;
+}
+
+.accordion-button:not(.collapsed) {
+  box-shadow: none;
+}
+
+.accordion-button::after {
+  background-size: 0.75rem;
+}
+
+/* --- Forms -------------------------------------------------------------- */
+.form-control,
+.form-select {
+  border-color: var(--border-strong);
+  background-color: var(--bg-surface-2);
+  color: var(--text-primary);
+}
+
+.form-control::placeholder {
+  color: var(--text-muted);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--accent-primary);
+  background-color: var(--bg-surface-2);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-focus);
+}
+
+/* --- Toast -------------------------------------------------------------- */
+.toast {
+  --bs-toast-border-radius: var(--radius-md);
+  backdrop-filter: blur(12px);
+}
+
+/* --- Collapse (used by the mobile nav) ---------------------------------- */
+.collapsing {
+  transition: height var(--dur-base) var(--ease-out);
+}
+
+/* --- Utility guardrails ------------------------------------------------- */
+/* Project components never inherit Bootstrap's coloured utilities for data. */
+.text-bg-warning,
+.text-bg-danger,
+.text-bg-success,
+.text-bg-primary {
+  color: inherit;
+}

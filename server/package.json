@@ -1,0 +1,21 @@
+{
+  "name": "wjyava-bmkg-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Strict CORS proxy for official BMKG weather alerts (RSS + CAP aggregation).",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "dependencies": {
+    "compression": "^1.7.5",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "fast-xml-parser": "^4.5.1"
+  }
+}
