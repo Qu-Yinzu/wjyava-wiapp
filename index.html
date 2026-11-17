@@ -11,11 +11,14 @@
   <script>
     (function () {
       var theme = 'dark';
+      var locale = 'id';
       try {
         if (localStorage.getItem('wjyava:theme') === 'light') theme = 'light';
+        if (localStorage.getItem('wjyava-locale') === 'en') locale = 'en';
       } catch {}
       document.documentElement.dataset.theme = theme;
       document.documentElement.dataset.bsTheme = theme;
+      document.documentElement.lang = locale;
       var meta = document.querySelector('meta[name="theme-color"]');
       if (meta) meta.setAttribute('content', theme === 'light' ? '#F2F5FB' : '#0B1020');
     })();
@@ -42,8 +45,103 @@
   <link rel="stylesheet" href="assets/css/components.css">
   <link rel="stylesheet" href="assets/css/bootstrap-overrides.css">
   <link rel="stylesheet" href="assets/css/responsive.css">
+  <noscript><style>.preloader { display: none !important; }</style></noscript>
 </head>
 <body id="top">
+  <div class="preloader" id="preloader" role="status" aria-live="polite" aria-busy="true" aria-label="Memuat antarmuka WJYAVA" data-i18n-aria-label="preloader.aria" data-stage="1">
+    <div class="preloader__inner">
+      <div class="preloader__stage" aria-hidden="true">
+        <svg viewBox="0 0 160 160" focusable="false">
+          <defs>
+            <linearGradient id="preloaderSunGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" style="stop-color: var(--preloader-sun-core)"></stop>
+              <stop offset="1" style="stop-color: var(--preloader-sun)"></stop>
+            </linearGradient>
+            <linearGradient id="preloaderUmbrellaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" style="stop-color: var(--preloader-umbrella-alt)"></stop>
+              <stop offset="1" style="stop-color: var(--preloader-umbrella)"></stop>
+            </linearGradient>
+          </defs>
+
+          <!-- Stage 1 · sun -->
+          <g class="preloader__sun">
+            <g class="preloader__sun-rays" stroke="var(--preloader-sun-ray)" stroke-width="3.5" stroke-linecap="round">
+              <line x1="74" y1="40" x2="74" y2="31"></line>
+              <line x1="92.4" y1="47.6" x2="98.7" y2="41.3"></line>
+              <line x1="100" y1="66" x2="109" y2="66"></line>
+              <line x1="92.4" y1="84.4" x2="98.7" y2="90.7"></line>
+              <line x1="55.6" y1="84.4" x2="49.3" y2="90.7"></line>
+              <line x1="48" y1="66" x2="39" y2="66"></line>
+              <line x1="55.6" y1="47.6" x2="49.3" y2="41.3"></line>
+            </g>
+            <g class="preloader__sun-disc">
+              <circle cx="74" cy="66" r="31" fill="var(--preloader-sun-halo)"></circle>
+              <circle cx="74" cy="66" r="21" fill="url(#preloaderSunGrad)"></circle>
+            </g>
+          </g>
+
+          <!-- Stage 3 · open umbrella above the rain cloud -->
+          <g class="preloader__umbrella">
+            <g class="preloader__umbrella-art">
+              <path d="M80 40 V90 Q80 99 71 99" fill="none" stroke="var(--preloader-umbrella-pole)" stroke-width="3.5" stroke-linecap="round"></path>
+              <path d="M40 58 Q80 20 120 58 Q112 52 106 58 Q100 52 94 58 Q88 52 82 58 Q76 52 70 58 Q64 52 58 58 Q51 52 40 58 Z" fill="url(#preloaderUmbrellaGrad)"></path>
+              <path d="M80 39 L58 57 M80 39 L70 58 M80 39 L94 58 M80 39 L108 57" fill="none" stroke="var(--preloader-umbrella)" stroke-width="1.2" stroke-linecap="round" opacity="0.5"></path>
+              <path d="M50 52 Q80 27 110 52" fill="none" stroke="var(--preloader-umbrella-alt)" stroke-width="2" stroke-linecap="round" opacity="0.6"></path>
+              <circle cx="80" cy="35.5" r="2.5" fill="var(--preloader-umbrella-alt)"></circle>
+            </g>
+          </g>
+
+          <!-- Stage 1 · clear cloud -->
+          <g class="preloader__cloud preloader__cloud--clear" fill="var(--preloader-cloud)">
+            <ellipse cx="104" cy="104" rx="30" ry="13"></ellipse>
+            <circle cx="92" cy="97" r="13"></circle>
+            <circle cx="108" cy="92" r="16"></circle>
+            <circle cx="124" cy="101" r="11"></circle>
+          </g>
+
+          <!-- Stage 2 · overcast stack -->
+          <g class="preloader__cloud preloader__cloud--overcast preloader__cloud--overcast-a" fill="var(--preloader-cloud-overcast)">
+            <ellipse cx="66" cy="102" rx="33" ry="14"></ellipse>
+            <circle cx="52" cy="94" r="14"></circle>
+            <circle cx="72" cy="90" r="18"></circle>
+            <circle cx="88" cy="98" r="13"></circle>
+          </g>
+          <g class="preloader__cloud preloader__cloud--overcast preloader__cloud--overcast-b" fill="var(--preloader-cloud-shadow)">
+            <ellipse cx="108" cy="92" rx="27" ry="12"></ellipse>
+            <circle cx="97" cy="86" r="12"></circle>
+            <circle cx="114" cy="82" r="15"></circle>
+            <circle cx="127" cy="90" r="10"></circle>
+          </g>
+
+          <!-- Stage 3 · dark rain cloud -->
+          <g class="preloader__cloud preloader__cloud--storm" fill="var(--preloader-cloud-storm)">
+            <ellipse cx="80" cy="103" rx="43" ry="17"></ellipse>
+            <circle cx="58" cy="94" r="17"></circle>
+            <circle cx="82" cy="88" r="21"></circle>
+            <circle cx="104" cy="96" r="16"></circle>
+            <ellipse cx="80" cy="108" rx="36" ry="9" fill="var(--preloader-cloud-storm-shade)" opacity="0.5"></ellipse>
+          </g>
+
+          <!-- Stage 3 · rain -->
+          <g class="preloader__rain" stroke="var(--preloader-rain)" stroke-width="3" stroke-linecap="round">
+            <line class="preloader__drop" x1="56" y1="122" x2="53" y2="132"></line>
+            <line class="preloader__drop" x1="68" y1="126" x2="65" y2="136"></line>
+            <line class="preloader__drop" x1="80" y1="122" x2="77" y2="132"></line>
+            <line class="preloader__drop" x1="92" y1="126" x2="89" y2="136"></line>
+            <line class="preloader__drop" x1="104" y1="122" x2="101" y2="132"></line>
+          </g>
+        </svg>
+      </div>
+
+      <div class="preloader__meter">
+        <div class="preloader__bar" role="progressbar" aria-labelledby="preloader-status" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <span class="preloader__bar-fill"></span>
+        </div>
+        <p class="preloader__status" id="preloader-status" data-i18n="preloader.status"><span class="preloader__status-lang" data-lang="id">Menyiapkan data cuaca…</span><span class="preloader__status-lang" data-lang="en">Preparing weather data…</span></p>
+      </div>
+    </div>
+  </div>
+
   <a class="skip-link" href="#main" data-i18n="nav.skip">Lewati ke konten utama</a>
 
   <header class="site-header">

@@ -130,6 +130,13 @@ PLAN.md                   # dokumen kontrak kerja
   `title`, dan `aria-pressed` mengikuti tema serta bahasa aktif. Semua warna
   berasal dari token, termasuk badge severity, kartu gempa, peta, toast, dan
   navbar, dengan kontras WCAG AA di kedua tema.
+- **Preloader first paint:** overlay cuaca tiga tahap (cerah → mendung → hujan
+  dengan payung) plus progress bar 240 px dan teks status dwibahasa. Overlay
+  memakai `role="status"`, tampil hanya pada boot pertama, dan menghormati
+  `prefers-reduced-motion`. Durasi tampil minimum 1,8 detik; controller
+  menutupnya setelah cuaca awal selesai atau pada fallback 4 detik, lalu
+  melepas overlay dari DOM sehingga perubahan kota, bahasa, atau tema tidak
+  memunculkannya kembali.
 - **Cache:** geocoding 24 jam, reverse geocode 24 jam, forecast 10 menit, alert
   5 menit, gempa terkini 60 detik, daftar gempa 5 menit, lokasi terakhir 30 hari.
   Cache alert yang lebih tua dari 5 menit tidak dipakai sebagai stale; panel
@@ -139,7 +146,8 @@ PLAN.md                   # dokumen kontrak kerja
 
 ## Performa & aset (audit Fase 4)
 
-Diukur 17 November 2026 dari build lokal (32 modul JS, 6 file CSS):
+Diukur 17 November 2026 dari build lokal Fase 4 (32 modul JS, 6 file CSS;
+preloader first paint menambah 1 modul):
 
 | Aset | File | Mentah | gzip | brotli |
 |---|---:|---:|---:|---:|

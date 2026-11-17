@@ -169,6 +169,21 @@
   --note-border: rgba(99, 102, 241, 0.22);
   --note-bg: rgba(99, 102, 241, 0.07);
   --note-text: #c7d2fe;
+
+  /* --- Preloader palette (derived from weather + accent tones) ---------- */
+  --preloader-sun: #f5d76e;
+  --preloader-sun-core: #ffe9a8;
+  --preloader-sun-ray: rgba(245, 215, 110, 0.48);
+  --preloader-sun-halo: rgba(245, 215, 110, 0.14);
+  --preloader-cloud: #cbd5e1;
+  --preloader-cloud-shadow: #94a3b8;
+  --preloader-cloud-overcast: #64748b;
+  --preloader-cloud-storm: #475569;
+  --preloader-cloud-storm-shade: #334155;
+  --preloader-rain: #93c5fd;
+  --preloader-umbrella: #818cf8;
+  --preloader-umbrella-alt: #c7d2fe;
+  --preloader-umbrella-pole: #cbd5e1;
 }
 
 /* ==========================================================================
@@ -281,4 +296,19 @@
   --note-border: rgba(79, 70, 229, 0.2);
   --note-bg: rgba(79, 70, 229, 0.06);
   --note-text: #3730a3;
+
+  /* --- Preloader palette (light theme) --------------------------------- */
+  --preloader-sun: #e8a317;
+  --preloader-sun-core: #fbd86f;
+  --preloader-sun-ray: rgba(180, 83, 9, 0.38);
+  --preloader-sun-halo: rgba(245, 158, 11, 0.18);
+  --preloader-cloud: #a8b5c6;
+  --preloader-cloud-shadow: #7c8ba1;
+  --preloader-cloud-overcast: #64748b;
+  --preloader-cloud-storm: #475569;
+  --preloader-cloud-storm-shade: #334155;
+  --preloader-rain: #1d4ed8;
+  --preloader-umbrella: #4f46e5;
+  --preloader-umbrella-alt: #6366f1;
+  --preloader-umbrella-pole: #334155;
 }

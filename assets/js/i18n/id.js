@@ -30,6 +30,9 @@ export default Object.freeze({
   'common.na': '—',
   'common.opensNewTab': 'membuka tab baru',
 
+  'preloader.aria': 'Memuat antarmuka WJYAVA',
+  'preloader.status': 'Menyiapkan data cuaca…',
+
   'nav.skip': 'Lewati ke konten utama',
   'nav.home': 'WJYAVA — kembali ke atas',
   'nav.toggle': 'Buka menu navigasi',

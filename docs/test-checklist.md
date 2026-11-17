@@ -4,8 +4,8 @@
 > pencarian kota, lima kota besar, peta Windy, peringatan dini BMKG (RSS + CAP),
 > info gempa, antarmuka bilingual ID/EN, tautan kota `?city=…`, audit performa,
 > disclaimer footer, dan dokumentasi akhir. Tema gelap/terang dengan penyimpanan
-> preferensi dan boot zero-FOUC juga tersedia. Matriks error lengkap ada di
-> [PLAN.md](../PLAN.md) §8.
+> preferensi, boot zero-FOUC, serta preloader first paint tiga tahap cuaca juga
+> tersedia. Matriks error lengkap ada di [PLAN.md](../PLAN.md) §8.
 
 ## 0. Status tahap
 
@@ -17,6 +17,7 @@
 | 3 — BMKG + interaksi | ✅ selesai | Proxy RSS+CAP, panel nasional, gempa, ID/EN, 49/49 QA |
 | 4 — Polish & performa | ✅ selesai | URL `?city=`, audit aset, disclaimer, docs, 34/34 QA |
 | Tema — Gelap/Terang | ✅ selesai | Toggle navbar, `wjyava:theme`, zero-FOUC, 40/40 QA |
+| Preloader first paint | ✅ selesai | 3 tahap cuaca + progress, dark/light, reduced motion, 23/23 QA |
 
 ## 1. Menjalankan
 
@@ -40,7 +41,7 @@ degraded mode dengan tautan resmi (bukan data rekaan).
 - Chrome **157.0.8103.79** headless via CDP (`Network.setCacheDisabled`).
 - Node **v24.21.0**; proxy ESM di `127.0.0.1:8787`, static server Node di
   `127.0.0.1:5501` (aset sama dengan `python -m http.server 5500`; server Node
-  dipakai saat QA agar burst 32 modul tidak menabrak backlog server Python).
+  dipakai saat QA agar burst 33 modul tidak menabrak backlog server Python).
 - `localStorage` dibersihkan di awal setiap skenario.
 - Tanggal uji: **17 November 2026**.
 
@@ -203,7 +204,7 @@ Hasil otomatis: **49/49 pemeriksaan lulus** (online) dan **5/5 lulus**
 - [x] Tautan eksternal memakai `rel="noopener noreferrer"`.
 - [x] Import relatif selalu berekstensi `.js`.
 - [x] Proxy memakai whitelist host + regex path, redirect manual maksimal 1× ke host yang sama.
-- [x] `node --check` lulus untuk **32 file JS klien** dan **5 file JS server**.
+- [x] `node --check` lulus untuk **33 file JS klien** dan **5 file JS server**.
 
 ## 16. Definition of Done Fase 3
 
@@ -222,7 +223,7 @@ Hasil otomatis: **49/49 pemeriksaan lulus** (online) dan **5/5 lulus**
 ## 17. Fase 4 — URL, performa, disclaimer, dokumentasi
 
 Bukti otomatis: **34/34 lulus** (QA Fase 4, Chrome headless via CDP, origin
-`127.0.0.1:5501` dengan static server Node agar burst 32 modul tidak menabrak
+`127.0.0.1:5501` dengan static server Node agar burst 33 modul tidak menabrak
 backlog server Python; aplikasi, aset, dan proxy `127.0.0.1:8787` identik).
 
 | Skenario | Hasil |
@@ -257,7 +258,7 @@ backlog server Python; aplikasi, aset, dan proxy `127.0.0.1:8787` identik).
       gzip 42,43 KB untuk sumber / 28,72 KB untuk bundle).
 - [x] Disclaimer footer ID/EN menyebut prakiraan dapat berubah + kanal resmi BMKG.
 - [x] `README.md`, `docs/api-contract.md`, dan checklist ini diperbarui.
-- [x] `node --check` 32/32 file klien + 5/5 file server.
+- [x] `node --check` 33/33 file klien + 5/5 file server.
 - [x] Unit `core/url.js` 12/12: parse koordinat/slug, validasi rentang,
       `replaceState`, preservasi `utm_*` + hash, normalisasi `cc`.
 - [x] `csstree-validator` 6/6 file CSS, 0 issue.
@@ -293,7 +294,7 @@ Select-String -Path assets/js/**/*.js -Pattern "from '\.{1,2}/[^']*[^s]'"
 Select-String -Path assets/js/**/*.js,index.html -Pattern 'innerHTML'
 ```
 
-Hasil akhir Fase 4: **32 file klien** dan **5 file server** lulus
+Hasil akhir Fase 4: **33 file klien** dan **5 file server** lulus
 `node --check`; **6 file CSS** lulus `csstree-validator` tanpa issue; tidak ada
 `innerHTML` untuk data eksternal (hanya komentar di `core/dom.js` dan
 `ui/skeleton.js`).
@@ -321,4 +322,29 @@ Bukti otomatis: **40/40 lulus** (Chrome headless via CDP, origin
 | Layout | ✅ 0 px overflow desktop 1440, mobile 360/390, pada kedua tema |
 | Menu mobile | ✅ toggle terlihat dan berada di dalam viewport |
 | Console | ✅ 0 error, 0 exception, 0 network failure |
+| Regresi Fase 4 | ✅ QA URL/performa 34/34 tetap lulus |
+
+## 22. Preloader First Paint
+
+Bukti otomatis: **23/23 lulus** (Chrome headless via CDP, origin
+`127.0.0.1:5501`), ditambah tangkapan layar statis untuk tiap tahap pada tema
+gelap/terang, desktop 1440 px, dan mobile 390 px.
+
+| Skenario | Hasil |
+|---|---|
+| Markup awal | ✅ overlay berada tepat setelah `<body>`, `role="status"`, `aria-live="polite"` |
+| Tahap 1 (0–33%) | ✅ matahari berdenyut + awan cerah, progress awal terlihat |
+| Tahap 2 (33–66%) | ✅ matahari meredup, dua lapis awan mendung masuk |
+| Tahap 3 (66–100%) | ✅ awan gelap, hujan turun, payung terbuka di atas awan |
+| Progress bar | ✅ 240 px desktop, isi gradasi aksen bertambah monoton mengikuti tahap |
+| Geometri | ✅ stage 150 px / bar 240 px desktop; 112 px / 200 px pada 390 px |
+| Tema | ✅ latar `#0B1020` dark dan `#F2F5FB` light tanpa kedipan |
+| Bahasa awal | ✅ status ID/EN mengikuti `wjyava-locale` sejak first paint |
+| Durasi | ✅ minimum 1,8 detik; fallback maksimum ~4 detik |
+| Exit | ✅ `opacity` + `scale(0.98)` 350 ms, lalu node dilepas dari DOM |
+| Interaksi pasca-exit | ✅ pointer bebas; kota/bahasa/tema tidak memunculkan overlay lagi |
+| Reduced motion | ✅ animasi matahari/awan/payung/hujan mati, hujan tampil statis, exit tanpa scale |
+| Layout | ✅ 0 px overflow desktop/mobile selama dan sesudah preloader |
+| Console | ✅ 0 error, 0 exception, 0 network failure |
+| Regresi tema | ✅ QA tema 40/40 tetap lulus |
 | Regresi Fase 4 | ✅ QA URL/performa 34/34 tetap lulus |

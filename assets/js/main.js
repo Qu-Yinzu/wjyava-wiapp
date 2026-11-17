@@ -27,6 +27,9 @@ import { initAlerts } from './ui/alerts.js';
 import { initQuake } from './ui/quake.js';
 import { initFaq } from './ui/faq.js';
 import { initContact } from './ui/contact.js';
+import { initPreloader } from './ui/preloader.js';
+
+const preloader = initPreloader();
 
 function readLastLocation() {
   const cached = cacheGet('last-location', { allowStale: false });
@@ -243,7 +246,7 @@ function applyBootLocation(location) {
   updateDocumentTitle(next.name);
 
   cacheSet('last-location', next, TTL.lastLocation);
-  loadWeather(next);
+  return loadWeather(next);
 }
 
 function bindConnectivity() {
@@ -292,12 +295,17 @@ function boot() {
 
     // A shared link outranks the browser's last location; the URL is only
     // rewritten when the visitor picks a new city.
-    applyBootLocation(readLocationFromUrl() || readLastLocation());
+    const initialWeather = applyBootLocation(readLocationFromUrl() || readLastLocation());
     loadCities();
     loadAlerts(locale);
     loadQuake();
+
+    // The overlay waits for the first current-weather response, with its own
+    // minimum and maximum display window handled inside the controller.
+    Promise.resolve(initialWeather).catch(() => {}).finally(() => preloader.complete());
   } catch (error) {
     console.error('[WJYAVA] Boot failed:', error);
+    preloader.complete();
   }
 }
 

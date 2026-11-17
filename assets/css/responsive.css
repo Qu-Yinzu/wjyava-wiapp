@@ -267,6 +267,19 @@
 
 /* --- ≤ 575.98px --------------------------------------------------------- */
 @media (max-width: 575.98px) {
+  .preloader__stage {
+    width: 124px;
+    height: 124px;
+  }
+
+  .preloader__inner {
+    gap: 1.25rem;
+  }
+
+  .preloader__bar {
+    width: min(220px, 74vw);
+  }
+
   .brand__mark {
     width: 34px;
     height: 34px;
@@ -377,6 +390,15 @@
 @media (max-width: 399.98px) {
   :root {
     --gutter: 1rem;
+  }
+
+  .preloader__stage {
+    width: 112px;
+    height: 112px;
+  }
+
+  .preloader__bar {
+    width: min(200px, 80vw);
   }
 
   .temp {

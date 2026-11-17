@@ -30,6 +30,9 @@ export default Object.freeze({
   'common.na': '—',
   'common.opensNewTab': 'opens a new tab',
 
+  'preloader.aria': 'Loading the WJYAVA interface',
+  'preloader.status': 'Preparing weather data…',
+
   'nav.skip': 'Skip to main content',
   'nav.home': 'WJYAVA — back to top',
   'nav.toggle': 'Open navigation menu',
