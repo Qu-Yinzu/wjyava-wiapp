@@ -5,8 +5,9 @@ serta peringatan dini dan info gempa resmi BMKG.
 
 > **Status saat ini:** Fase 4 selesai — seluruh fitur Fase 0–3 berjalan dengan
 > data **live**, ditambah tautan kota yang dapat dibagikan (`?city=…`), audit
-> performa/aset, disclaimer footer, dan dokumentasi akhir. Peringatan dan gempa
-> selalu berskala **nasional Indonesia**, apa pun kota yang dipilih.
+> performa/aset, disclaimer footer, dokumentasi akhir, serta tema **gelap
+> (default) / terang** yang tersimpan di browser. Peringatan dan gempa selalu
+> berskala **nasional Indonesia**, apa pun kota yang dipilih.
 
 ## Menjalankan secara lokal
 
@@ -122,6 +123,13 @@ PLAN.md                   # dokumen kontrak kerja
   hook `data-i18n*`; tanggal memakai `Intl`; pilihan bahasa disimpan di
   `localStorage` (`wjyava-locale`). Beralih ke EN memuat ulang feed alert BMKG
   berbahasa Inggris tanpa menerjemahkan teks resmi BMKG secara manual.
+- **Tema gelap/terang:** gelap adalah default; tombol matahari/bulan di navbar
+  beralih ke tema terang dan menyimpan pilihan di `localStorage`
+  (`wjyava:theme`). Skrip inline di `<head>` menetapkan `data-theme` sebelum
+  stylesheet dimuat sehingga tidak ada kedipan (zero-FOUC); `aria-label`,
+  `title`, dan `aria-pressed` mengikuti tema serta bahasa aktif. Semua warna
+  berasal dari token, termasuk badge severity, kartu gempa, peta, toast, dan
+  navbar, dengan kontras WCAG AA di kedua tema.
 - **Cache:** geocoding 24 jam, reverse geocode 24 jam, forecast 10 menit, alert
   5 menit, gempa terkini 60 detik, daftar gempa 5 menit, lokasi terakhir 30 hari.
   Cache alert yang lebih tua dari 5 menit tidak dipakai sebagai stale; panel

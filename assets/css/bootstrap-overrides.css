@@ -32,7 +32,7 @@
   --bs-primary-rgb: 99, 102, 241;
   --bs-link-color: var(--accent-primary-text);
   --bs-link-color-rgb: 129, 140, 248;
-  --bs-link-hover-color: #a5b4fc;
+  --bs-link-hover-color: var(--link-hover);
   --bs-link-hover-color-rgb: 165, 180, 252;
 
   --bs-focus-ring-color: rgba(245, 215, 110, 0.45);
@@ -65,7 +65,7 @@
   --bs-form-control-focus-box-shadow: var(--shadow-focus);
   --bs-form-control-placeholder-color: var(--text-muted);
 
-  --bs-toast-bg: #1e2947;
+  --bs-toast-bg: var(--toast-bg);
   --bs-toast-border-color: var(--border-strong);
   --bs-toast-color: var(--text-primary);
   --bs-toast-header-bg: transparent;
@@ -76,6 +76,16 @@
   --bs-dropdown-link-color: var(--text-primary);
   --bs-dropdown-link-hover-bg: var(--bg-surface-2);
   --bs-dropdown-link-hover-color: var(--text-primary);
+}
+
+/* Bootstrap consumes a few literal RGB triples that tokens cannot change. */
+[data-theme="light"] {
+  --bs-body-bg-rgb: 242, 245, 251;
+  --bs-body-color-rgb: 15, 23, 42;
+  --bs-primary-rgb: 79, 70, 229;
+  --bs-link-color-rgb: 67, 56, 202;
+  --bs-link-hover-color-rgb: 55, 48, 163;
+  --bs-focus-ring-color: rgba(161, 98, 7, 0.4);
 }
 
 /* --- Navbar ------------------------------------------------------------- */

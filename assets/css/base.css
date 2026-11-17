@@ -24,9 +24,9 @@ body {
   color: var(--text-primary);
   background-color: var(--bg-base);
   background-image:
-    radial-gradient(1100px 620px at 82% -8%, rgba(99, 102, 241, 0.16), transparent 62%),
-    radial-gradient(900px 520px at -5% 8%, rgba(245, 215, 110, 0.055), transparent 58%),
-    radial-gradient(900px 700px at 50% 110%, rgba(99, 102, 241, 0.08), transparent 65%);
+    radial-gradient(1100px 620px at 82% -8%, var(--body-glow-a), transparent 62%),
+    radial-gradient(900px 520px at -5% 8%, var(--body-glow-b), transparent 58%),
+    radial-gradient(900px 700px at 50% 110%, var(--body-glow-c), transparent 65%);
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -75,7 +75,7 @@ a {
 }
 
 a:hover {
-  color: #a5b4fc;
+  color: var(--link-hover);
 }
 
 button,
@@ -96,8 +96,8 @@ button:disabled {
 }
 
 ::selection {
-  background: rgba(99, 102, 241, 0.4);
-  color: #fff;
+  background: var(--selection-bg);
+  color: var(--selection-text);
 }
 
 :focus-visible {
@@ -146,8 +146,8 @@ button:disabled {
   z-index: 2000;
   padding: 0.625rem 1rem;
   border-radius: var(--radius-sm);
-  background: var(--accent-mimosa);
-  color: #141a2b;
+  background: var(--skip-bg);
+  color: var(--skip-text);
   font-weight: 600;
   font-size: var(--fs-sm);
   transform: translateY(-220%);

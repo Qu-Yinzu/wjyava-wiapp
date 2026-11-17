@@ -9,7 +9,7 @@
 import { DEFAULT_LOCATION, WINDY } from '../config.js';
 
 const initialState = {
-  meta: { locale: 'id', unit: 'metric', online: true, hydratedFromCache: false },
+  meta: { locale: 'id', theme: 'dark', unit: 'metric', online: true, hydratedFromCache: false },
   location: { ...DEFAULT_LOCATION },
   search: { query: '', status: 'idle', results: [], suggestions: [], error: null, open: false },
   weather: { status: 'loading', data: null, updatedAt: null, error: null },

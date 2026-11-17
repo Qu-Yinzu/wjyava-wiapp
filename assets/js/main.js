@@ -17,7 +17,7 @@ import { zoomForLocation } from './services/windy.service.js';
 import { getLocale, initI18n, t } from './i18n/i18n.js';
 import { captureSkeletons } from './ui/skeleton.js';
 import { showToast } from './ui/feedback.js';
-import { initNavbar } from './ui/navbar.js';
+import { initNavbar, initTheme } from './ui/navbar.js';
 import { initSearch } from './ui/search.js';
 import { initCurrentWeather } from './ui/current-weather.js';
 import { initForecast } from './ui/forecast.js';
@@ -261,7 +261,8 @@ function bindConnectivity() {
 function boot() {
   try {
     const locale = initI18n();
-    store.set('meta', { locale }, { silent: true });
+    const theme = initTheme();
+    store.set('meta', { locale, theme }, { silent: true });
 
     captureSkeletons();
 

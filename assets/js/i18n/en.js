@@ -41,6 +41,8 @@ export default Object.freeze({
   'nav.localeGroup': 'Choose language',
   'nav.geolocate': 'My Location',
   'nav.geolocating': 'Locating…',
+  'nav.themeLight': 'Switch to light mode',
+  'nav.themeDark': 'Switch to dark mode',
 
   'hero.eyebrow': 'Live conditions · Indonesia',
   'hero.title1': 'Know the sky.',
@@ -260,6 +262,8 @@ export default Object.freeze({
   'toast.cityRetryFailed': 'Weather for {city} still failed to load.',
   'toast.localeEn': 'Language switched to English. Labels and the BMKG feed were reloaded; official BMKG text stays as published.',
   'toast.localeId': 'Language switched to Indonesian. The BMKG feed was reloaded.',
+  'toast.themeLight': 'Light mode enabled.',
+  'toast.themeDark': 'Dark mode enabled.',
   'toast.geoUnsupported': 'This browser does not support geolocation. Search for a city manually.',
   'toast.geoLocating': 'Detecting your location…',
   'toast.geoDenied': 'Location permission was denied. Search for a city manually; the active city is unchanged.',

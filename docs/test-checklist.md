@@ -3,7 +3,8 @@
 > **Status: Fase 4 selesai.** Seluruh tahap Fase 0–4 tuntas: cuaca, prakiraan,
 > pencarian kota, lima kota besar, peta Windy, peringatan dini BMKG (RSS + CAP),
 > info gempa, antarmuka bilingual ID/EN, tautan kota `?city=…`, audit performa,
-> disclaimer footer, dan dokumentasi akhir. Matriks error lengkap ada di
+> disclaimer footer, dan dokumentasi akhir. Tema gelap/terang dengan penyimpanan
+> preferensi dan boot zero-FOUC juga tersedia. Matriks error lengkap ada di
 > [PLAN.md](../PLAN.md) §8.
 
 ## 0. Status tahap
@@ -15,6 +16,7 @@
 | 2 — Open-Meteo + Windy | ✅ selesai | Cuaca live, prakiraan 5 hari, peta, lima kota |
 | 3 — BMKG + interaksi | ✅ selesai | Proxy RSS+CAP, panel nasional, gempa, ID/EN, 49/49 QA |
 | 4 — Polish & performa | ✅ selesai | URL `?city=`, audit aset, disclaimer, docs, 34/34 QA |
+| Tema — Gelap/Terang | ✅ selesai | Toggle navbar, `wjyava:theme`, zero-FOUC, 40/40 QA |
 
 ## 1. Menjalankan
 
@@ -295,3 +297,28 @@ Hasil akhir Fase 4: **32 file klien** dan **5 file server** lulus
 `node --check`; **6 file CSS** lulus `csstree-validator` tanpa issue; tidak ada
 `innerHTML` untuk data eksternal (hanya komentar di `core/dom.js` dan
 `ui/skeleton.js`).
+
+## 21. Tema Gelap / Terang
+
+Bukti otomatis: **40/40 lulus** (Chrome headless via CDP, origin
+`127.0.0.1:5501`). Dark tetap default; light diterapkan lewat
+`[data-theme="light"]` pada `<html>` dan disimpan di `localStorage`
+(`wjyava:theme`).
+
+| Skenario | Hasil |
+|---|---|
+| Boot default | ✅ `data-theme="dark"`, `data-bs-theme="dark"`, tanpa nilai tersimpan |
+| Light aktif | ✅ `data-theme="light"`, `localStorage=light`, `theme-color=#F2F5FB` |
+| Dark kembali | ✅ `data-theme="dark"`, `localStorage=dark`, `theme-color=#0B1020` |
+| Zero-FOUC | ✅ skrip inline tema berada sebelum seluruh `<link rel="stylesheet">` |
+| Persistensi reload | ✅ tema light bertahan sebelum/ketika boot selesai |
+| Aksesibilitas toggle | ✅ `type="button"`, `aria-label`/`title` ID+EN, `aria-pressed` sinkron |
+| Ikon | ✅ matahari di dark, bulan di light |
+| Kontras badge severity | ✅ AA di kedua tema (light 5,54–8,93:1; dark 7,83–10,92:1) |
+| Kontras teks aksen/metrik/peta | ✅ light 4,60–7,09:1 |
+| Kontras tombol utama | ✅ 6,29:1 pada light |
+| Teks utama | ✅ 16,35:1 light, 15,36:1 dark |
+| Layout | ✅ 0 px overflow desktop 1440, mobile 360/390, pada kedua tema |
+| Menu mobile | ✅ toggle terlihat dan berada di dalam viewport |
+| Console | ✅ 0 error, 0 exception, 0 network failure |
+| Regresi Fase 4 | ✅ QA URL/performa 34/34 tetap lulus |

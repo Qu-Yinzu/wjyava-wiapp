@@ -1,12 +1,25 @@
 <!DOCTYPE html>
-<html lang="id" data-bs-theme="dark">
+<html lang="id" data-theme="dark" data-bs-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>WJYAVA — Weather Intelligence Interface</title>
-  <meta name="description" content="WJYAVA menyatukan cuaca terkini, prakiraan lima hari, peta atmosfer, serta peringatan dini dan info gempa resmi BMKG dalam satu antarmuka gelap yang tenang dan mudah dibaca.">
+  <meta name="description" content="WJYAVA menyatukan cuaca terkini, prakiraan lima hari, peta atmosfer, serta peringatan dini dan info gempa resmi BMKG dalam satu antarmuka yang tenang, mudah dibaca, dan dapat diganti tema gelap/terang.">
   <meta name="theme-color" content="#0B1020">
-  <meta name="color-scheme" content="dark">
+  <meta name="color-scheme" content="dark light">
+
+  <script>
+    (function () {
+      var theme = 'dark';
+      try {
+        if (localStorage.getItem('wjyava:theme') === 'light') theme = 'light';
+      } catch {}
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.dataset.bsTheme = theme;
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', theme === 'light' ? '#F2F5FB' : '#0B1020');
+    })();
+  </script>
 
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 
@@ -60,6 +73,10 @@
             <button class="seg-toggle__btn" type="button" data-locale="id" aria-pressed="true">ID</button>
             <button class="seg-toggle__btn" type="button" data-locale="en" aria-pressed="false">EN</button>
           </div>
+          <button class="theme-toggle" type="button" data-action="theme" aria-label="Ubah ke mode terang" aria-pressed="false" title="Ubah ke mode terang">
+            <svg class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true" focusable="false"><use href="assets/img/sprite-weather.svg#sun"></use></svg>
+            <svg class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true" focusable="false"><use href="assets/img/sprite-weather.svg#moon"></use></svg>
+          </button>
           <button class="btn btn--ghost btn--sm" type="button" data-action="geolocate">
             <svg class="icon icon--xs" aria-hidden="true" focusable="false"><use href="assets/img/sprite-weather.svg#pin"></use></svg>
             <span data-i18n="nav.geolocate">Lokasi Saya</span>

@@ -41,6 +41,8 @@ export default Object.freeze({
   'nav.localeGroup': 'Pilih bahasa',
   'nav.geolocate': 'Lokasi Saya',
   'nav.geolocating': 'Mendeteksi…',
+  'nav.themeLight': 'Ubah ke mode terang',
+  'nav.themeDark': 'Ubah ke mode gelap',
 
   'hero.eyebrow': 'Live conditions · Indonesia',
   'hero.title1': 'Know the sky.',
@@ -260,6 +262,8 @@ export default Object.freeze({
   'toast.cityRetryFailed': 'Cuaca {city} masih gagal dimuat.',
   'toast.localeEn': 'Bahasa diganti ke English. Label dan feed BMKG dimuat ulang; teks resmi BMKG tetap apa adanya.',
   'toast.localeId': 'Bahasa diganti ke Indonesia. Feed BMKG dimuat ulang.',
+  'toast.themeLight': 'Mode terang aktif.',
+  'toast.themeDark': 'Mode gelap aktif.',
   'toast.geoUnsupported': 'Peramban ini tidak mendukung geolokasi. Cari kota secara manual.',
   'toast.geoLocating': 'Mendeteksi lokasi Anda…',
   'toast.geoDenied': 'Izin lokasi ditolak. Cari kota secara manual; kota aktif tidak berubah.',
